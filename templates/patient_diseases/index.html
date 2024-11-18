@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<table class="table table-borderless">
+    <thead class="border-bottom font-weight-bold">
+        <tr>
+            <th>Id</th>
+            <th>Email</th>
+            <th>Disease Code</th>
+            <th>Disease Description</th>
+            <th>
+                <a href="{% url 'patientdisease-create' %}" class="btn btn-outline-success btn-sm">
+                    <i class="fas fa-plus"></i> Add New
+                </a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for patientdisease in patientdiseases %}
+                <tr>
+                    <td>{{ patientdisease.id }}</td>
+                    <td>{{ patientdisease.email }}</td>
+                    <td>{{ patientdisease.disease_code }}</td>
+                    <td>{{ patientdisease.disease_code.description }}</td>
+                    <td>
+                        <a href="{% url 'patientdisease-update' patientdisease.id %}" class="btn text-secondary px-0">
+                            <i class="far fa-edit fa-lg"></i>
+                        </a>
+                        <form action="{% url 'patientdisease-delete' patientdisease.id %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn">
+                                <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">No diseases available.</td>
+                </tr>
+            {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<table class="table table-borderless">
+    <thead class="border-bottom font-weight-bold">
+        <tr>
+            <th>Email</th>
+            <th>Country</th>
+            <th>Disease Code</th>
+            <th>Deaths</th>
+            <th>Patients</th>
+            <th>
+                <a href="{% url 'record-create' %}" class="btn btn-outline-success btn-sm">
+                    <i class="fas fa-plus"></i> Add New
+                </a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for record in records %}
+                <tr>
+                    <td>{{ record.email }}</td>
+                    <td>{{ record.cname }}</td>
+                    <td>{{ record.disease_code }}</td>
+                    <td>{{ record.total_deaths }}</td>
+                    <td>{{ record.total_patients }}</td>
+                    <td>
+                        <a href="{% url 'record-update' record.id %}" class="btn text-secondary px-0">
+                            <i class="far fa-edit fa-lg"></i>
+                        </a>
+                        <form action="{% url 'record-delete' record.id %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn">
+                                <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="5" class="text-center">No diseases available.</td>
+                </tr>
+            {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}

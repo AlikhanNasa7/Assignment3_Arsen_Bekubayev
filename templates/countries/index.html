@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<table class="table table-borderless">
+    <thead class="border-bottom font-weight-bold">
+        <tr>
+            <td>Country Name</td>
+            <td>Population</td>
+            <td>
+                <a href="{% url 'country-create' %}" class="btn btn-outline-success">
+                    <i class="fas fa-plus"></i> Add New
+                </a>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for country in countries %}
+            <tr>
+                <td>{{country.cname}}</td>
+                <td>{{country.population}}</td>
+                <td>
+                    <a href="{% url 'country-update' country.cname %}" class="btn text-secondary px-0">
+                        <i class="far fa-edit fa-lg"></i>
+                    </a>
+                    <form action="{% url 'country-delete' country.cname %}" method="post" class="d-inline">
+                        {% csrf_token %}
+                        <button type="submit" class="btn">
+                            <i class="far fa-trash-alt fa-lg text-danger float-right"></i>
+                        </button>
+                    </form>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock content %}
